@@ -64,15 +64,25 @@ def build_idf():
     words_idf[word] = math.log( float(maxdocs) / freq ) 
   open('words_idf.json', 'w').write(json.dumps(words_idf)) 
 
+def check():
+  m = MeCab.Tagger ("-Owakati")
+  idf = json.loads(open('words_idf.json').read())
+  for line in sys.stdin:
+    line = line.strip()
+    term_freq = dict(Counter(m.parse(line).strip().split()))
+    result = dict()
+    for term, freq in term_freq.items():
+      if idf.get(term) is None: continue
+      result[term] += freq*idf[term]
+    print(json.dumps(result))
+      
 def main():
   if '--wakati' in sys.argv:
     wakati()
   if '--build' in sys.argv:
     build_idf()
-  if '-c' in sys.argv:
-    idf = json.loads(open('words_idf.json').read())
-    for w, idf in sorted(idf.items(), key=lambda x:x[1]):
-      print(w, idf)
+  if '--check' in sys.argv:
+    chekc()
 
 if __name__ == '__main__':
   main()
