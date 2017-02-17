@@ -4,7 +4,7 @@
 
 WikiepdiaのダンプファイルからIDF辞書を辞書を構築するスクリプトです。
 
-  - LevelDB(kvs)を利用した省メモリ設計でどすべてのWikipediaのコンテンツコンテンツを取得可能
+  - LevelDB(kvs)を利用した省メモリ設計で、すべてのWikipediaのコンテンツコンテンツを取得可能
   - XGBoostやElasticNetなど他のアルゴリズムでの前処理に
   - JSONスキーマなので、Python以外の他のスクリプト言語でも利用可能
   
