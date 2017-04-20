@@ -82,7 +82,7 @@ def main():
   if '--build' in sys.argv:
     build_idf()
   if '--check' in sys.argv:
-    chekc()
+    check()
 
 if __name__ == '__main__':
   main()
