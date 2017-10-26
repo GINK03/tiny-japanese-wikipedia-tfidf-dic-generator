@@ -16,7 +16,7 @@ def wakati():
   m = MeCab.Tagger ("-Owakati")
   cursol = None
   count  = 0
-  for i, (event, elem) in enumerate(et.iterparse('./jawiki-20170201-pages-articles-multistream.xml')):
+  for i, (event, elem) in enumerate(et.iterparse('./jawiki-20171020-pages-articles-multistream.xml')):
     # free memory
     if count%2500 == 0:
       print("now docs %d"%count)
@@ -39,6 +39,13 @@ def wakati():
       db.put(bytes(cursol, 'utf-8'), pickle.dumps(parsed.split()) ) 
     elem.clear()
   print("total len=%d"%i)
+
+def dump():
+  db = plyvel.DB('title_context.ldb', create_if_missing=True)
+  for key, val in db:
+    parsed = pickle.loads(val)
+    print(' '.join(parsed))
+  
 
 def build_idf():
   db_source = plyvel.DB('title_context.ldb', create_if_missing=False)
@@ -79,6 +86,8 @@ def check():
 def main():
   if '--wakati' in sys.argv:
     wakati()
+  if '--dump' in sys.argv:
+    dump()
   if '--build' in sys.argv:
     build_idf()
   if '--check' in sys.argv:
